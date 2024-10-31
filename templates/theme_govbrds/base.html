@@ -1,5 +1,11 @@
 {% extends 'theme_govbrds/govbrds.html' %}
 
+
+{% load aratinga_tags navigation_tags i18n static wagtailcore_tags wagtailimages_tags wagtailsettings_tags wagtailuserbar %}
+{% get_settings %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
 {% block govbrds_title %}{{page.title}}{% endblock %}
 
 {% block govbrds_before_content %}
@@ -14,7 +20,21 @@
         <div class="col mb-5">
             {% include 'theme_govbrds/includes/breadcrumb.html' %}
             <div class="main-content pl-sm-3 mt-4" id="main-content">
-              {% block content %} CONTENT {% endblock %}
+              {% block content %}
+                {% block messages %}
+                    {% include "aratinga/includes/messages.html" %}
+                {% endblock messages %}
+
+    
+                {% block content_body %}
+                    {% for block in page.body %}
+                        {% include_block block with settings=settings %}
+                    {% endfor %}
+                {% endblock %}
+
+                {% block content_post_body %}{% endblock %}
+
+            {% endblock content %}
             </div>
         </div>
       </div>
