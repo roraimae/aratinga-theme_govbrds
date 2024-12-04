@@ -6,7 +6,7 @@ from django.contrib.messages import constants as message_constants
 from django.template import Context
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-
+from wagtail.models import Page
 from ..core import get_govbrds_setting
 
 MESSAGE_ALERT_TYPES = {
@@ -139,3 +139,38 @@ def govbrds_theme_url():
     return theme_url()
 
 
+# Retrieves the top menu items - the immediate children of the parent page
+# The has_menu_children method is necessary because the Foundation menu requires
+# a dropdown class to be applied to a parent
+@register.inclusion_tag("tags/top_menu.html", takes_context=True)
+def top_menu(context, parent, calling_page=None):
+    menuitems = parent.get_children().live().in_menu()
+    for menuitem in menuitems:
+        menuitem.show_dropdown = has_menu_children(menuitem)
+        # We don't directly check if calling_page is None since the template
+        # engine can pass an empty string to calling_page
+        # if the variable passed as calling_page does not exist.
+        menuitem.active = (
+            calling_page.url_path.startswith(menuitem.url_path)
+            if calling_page
+            else False
+        )
+    return {
+        "calling_page": calling_page,
+        "menuitems": menuitems,
+        # required by the pageurl tag that we want to use within this template
+        "request": context["request"],
+    }
+
+@register.inclusion_tag("tags/breadcrumb.html", takes_context=True)
+def breadcrumbs(context):
+    self = context.get("self")
+    if self is None or self.depth <= 2:
+        # When on the home page, displaying breadcrumbs is irrelevant.
+        ancestors = ()
+    else:
+        ancestors = Page.objects.ancestor_of(self, inclusive=True).filter(depth__gt=1)
+    return {
+        "ancestors": ancestors,
+        "request": context["request"],
+    }

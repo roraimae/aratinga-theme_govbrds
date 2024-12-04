@@ -1,0 +1,10 @@
+{% block content %}
+
+    <h2>Navegação</h2>
+    <ul>
+    {% for page in self.get_children.specific %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}
