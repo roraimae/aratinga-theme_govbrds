@@ -1,8 +1,8 @@
 {
   "name": "govbrds3",
-  "version": "3.5.3",
+  "version": "3.6.1",
   "description": "Design System do Governo Federal Brasileiro",
   "dependencies": {
-    "@govbr-ds/core": "^3.5.3"
+    "@govbr-ds/core": "^3.6.1"
   }
 }
