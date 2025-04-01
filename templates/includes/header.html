@@ -1,11 +1,22 @@
-{% load navigation_tags %}
-
+{% load navigation_tags wagtailsettings_tags wagtailimages_tags %}
+{% get_settings %}
 <header class="br-header mb-4" id="header" data-sticky="data-sticky">
     <div class="container-lg">
         <div class="header-top">
             <div class="header-logo">
-                <a href="{{ root_url }}" title="Página inicial"><img src="/static/img/logo.png" alt="logo"/><span class="br-divider vertical"></span></a>
-                <div class="header-sign"><a href="https://gov.br/mec" alt="Ministério da Educação">Ministério da Educação</a></div>
+                <a href="{{ root_url }}" title="Página inicial">
+                    {% block logo %}
+                        {% image settings.aratinga.SiteSettings.logo max-320x200 %}
+                    {% endblock %}
+                    <span class="br-divider vertical"></span>
+                </a>
+
+                {% block title_suffix %}
+                <div class="header-sign"><a href="https://gov.br/mec" alt="{{ settings.aratinga.sitesettings.title_suffix }}">
+                    {{ settings.aratinga.SiteSettings.title_suffix }}
+                </a></div>
+                {% endblock %}
+
             </div>
             <div class="header-actions">
                 <div class="header-links dropdown">
@@ -79,14 +90,18 @@
                     <button class="br-button small circle" type="button" aria-label="Menu" data-toggle="menu" data-target="#main-navigation" id="navigation"><i class="fas fa-bars" aria-hidden="true"></i>
                     </button>
                 </div>
-                <img src="/static/img/logo-medio.png" style="height: 60px; float: left; margin-right: 5px"/>
+                <img src="" style="height: 60px; float: left; margin-right: 5px"/>
                 <div class="header-info">
-                    <div class="header-title"><a href="{% url 'wagtail_serve' '' %}">Instituto Federal de Roraima</a></div>
+                   
+                    <div class="header-title"><a href="{% url 'wagtail_serve' '' %}"></a>
+                        {{ wagtail_serve.site_name }}
+                    </a></div>
+         
                     <div class="header-subtitle">{{ page.title }}</div>
                 </div>
             </div>
             <div class="header-search" id="main-searchbox">
-                <form action="{% url 'search' %}" method="get" class="navigation__search" role="search">
+                <form action="#" method="get" class="navigation__search" role="search">
                     <div class="br-input has-icon">
                         <label for="search-input">Texto da pesquisa</label>
                         <input id="search-input" type="text" placeholder="O que você procura?" name="query"/>
