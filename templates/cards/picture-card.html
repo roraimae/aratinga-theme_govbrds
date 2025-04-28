@@ -1,0 +1,6 @@
+{% load wagtailimages_tags %}
+
+<a href="{{ page.url }}">
+    {% image page.image fill-500x200-c100 class="rounded-corners" %}
+    <h3>{{ page.title }}</h3>
+</a>

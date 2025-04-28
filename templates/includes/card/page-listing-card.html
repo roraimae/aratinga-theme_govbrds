@@ -1,0 +1,28 @@
+{% load wagtailcore_tags govbrds_navigation_tags wagtailimages_tags %}
+
+<div class="page-listing-card">
+    <a class="page-listing-card__link" href="{% pageurl page %}">
+        {% if page.image %}
+            <figure class="page-listing-card__image">
+                {% image page.image fill-322x247-c100 loading="lazy" %}
+            </figure>
+        {% endif %}
+        <div class="page-listing-card__contents">
+            <h2 class="page-listing-card__title">{{ page.title }}</h2>
+            {% if page.introduction %}
+                <p class="page-listing-card__introduction">{{ page.introduction|truncatewords:15 }}</p>
+            {% endif %}
+            <p class="page-listing-card__metadata">
+                {% if page.date_published %}
+                    {{ page.date_published }} by
+                {% endif %}
+                {% for author in page.authors %}
+                    {{ author }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </a>
+</div>
+
+
+
