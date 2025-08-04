@@ -1,20 +1,8 @@
 from django import template
 from wagtail.models import Page, Site
 
-from base.models import FooterText
-
 register = template.Library()
 # https://docs.djangoproject.com/en/3.2/howto/custom-template-tags/
-
-
-
-
-
-
-
-
-
-
 
 @register.inclusion_tag("tags/breadcrumbs.html", takes_context=True)
 def breadcrumbs(context):

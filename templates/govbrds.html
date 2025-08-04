@@ -27,21 +27,16 @@
 
     {# Global stylesheets #}
     <!-- Fonte Rawline-->
-    <link rel="stylesheet"
-          href="/static/css/rawline.css"/>
+    <link rel="stylesheet" href="/static/css/rawline.css"/>
 
     <!-- Fonte Raleway-->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900&amp;display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900&amp;display=swap"/>
 
     <!-- GovBR-DS CSS -->
-    <link rel="stylesheet"
-          href="/static/css/styles.min.css">
+    <link rel="stylesheet" href="/static/css/styles.min.css">
 
     <!-- Fontawesome-->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
 
     {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
@@ -64,10 +59,27 @@
     {% block header %}
         {% include "includes/header.html" %}
     {% endblock header %}
-
+    <div class="br-menu small" id="main-navigation">
+            {% block nav %}{% include "includes/nav.html" %}{% endblock nav %}
+        </div>
     <main class="d-flex flex-fill mb-5" id="main">
         <div class="container-lg d-flex">
-                {% block govbrds_content %} CONTENT {% endblock %}
+                {% block content %}
+                    {% block messages %}
+                        {% include "aratinga/includes/messages.html" %}
+                    {% endblock messages %}
+
+        
+                    {% block content_body %}
+                        {% for block in page.body %}
+                            {% include_block block with settings=settings %}
+                            <br />
+                        {% endfor %}
+                    {% endblock %}
+                
+                    {% block content_post_body %}{% endblock %}
+            
+                {% endblock content %}
         </div>
     </main>
 
@@ -76,7 +88,7 @@
     {% endblock footer %}
 
     {# DSGOVBR javascript #}
-    <script src="https://docs-ds.estaleiro.serpro.gov.br/govbr-ds-core/dist/core-init.js"></script>
+    <script src="/static/js/core-init.js"></script>
     <script src="/static/js/portal_ifrr.js"></script>
     {# Global javascript #}
     {% block extra_js %}

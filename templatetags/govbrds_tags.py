@@ -8,7 +8,6 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from wagtail.models import Page, Site
 
-from base.models import FooterText
 from ..core import get_govbrds_setting
 
 MESSAGE_ALERT_TYPES = {
@@ -59,9 +58,6 @@ def top_menu(context, parent, calling_page=None):
         # required by the pageurl tag that we want to use within this template
         "request": context["request"],
     }
-
-
-
 
 # Retrieves the children of the top menu items for the drop downs
 @register.inclusion_tag("tags/top_menu_children.html", takes_context=True)
