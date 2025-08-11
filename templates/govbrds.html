@@ -64,22 +64,29 @@
         </div>
     <main class="d-flex flex-fill mb-5" id="main">
         <div class="container-lg d-flex">
-                {% block content %}
-                    {% block messages %}
-                        {% include "aratinga/includes/messages.html" %}
-                    {% endblock messages %}
+        <div class="col mb-5">
 
+             {% block breadcrumbs %}
+                {% breadcrumbs %}
+            {% endblock breadcrumbs %}
+            <div class="main-content pl-sm-3 mt-4" id="main-content">
+                    {% block content %}
+                        {% block messages %}
+                            {% include "aratinga/includes/messages.html" %}
+                        {% endblock messages %}
         
-                    {% block content_body %}
-                        {% for block in page.body %}
-                            {% include_block block with settings=settings %}
-                            <br />
-                        {% endfor %}
-                    {% endblock %}
+                        {% block content_body %}
+                            {% for block in page.body %}
+                                {% include_block block with settings=settings %}
+                                <br />
+                            {% endfor %}
+                        {% endblock %}
+                    
+                        {% block content_post_body %}{% endblock %}
                 
-                    {% block content_post_body %}{% endblock %}
-            
-                {% endblock content %}
+                    {% endblock content %}
+            </div>
+        </div>
         </div>
     </main>
 
